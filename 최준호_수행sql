@@ -1,0 +1,46 @@
+-----------1번-------------------
+
+SELECT E.last_name      as 사원이름
+      ,E.salary         as 급여
+      ,D.department_id  as 사원등급
+      ,jg.grade_level   as 부서이름
+      ,L.city           as 이름
+      ,C.country_name   as 나라
+      ,R.region_name    as 지역
+      ,M.last_name      as 멘토
+FROM employees E
+     ,job_grades jg
+     ,departments D
+     ,locations L
+     ,countries C
+     ,regions R
+     ,employees M
+WHERE E.salary BETWEEN jg.lowest_sal AND jg.highest_sal
+    AND E.department_id = D.department_id(+)
+    AND D.location_id = L.location_id(+)
+    AND L.country_id = C.country_id(+)
+    AND C.region_id = R.region_id(+)
+    AND E.manager_id = M.employee_id(+);
+    
+--------------2번---------------------
+    
+SELECT E.last_name      as 사원이름
+      ,E.salary         as 급여
+      ,D.department_id  as 사원등급
+      ,jg.grade_level   as 부서이름
+      ,L.city           as 이름
+      ,C.country_name   as 나라
+      ,R.region_name    as 지역
+      ,M.last_name      as 멘토
+FROM employees E join job_grades jg
+   on e.salary between jg.lowest_sal and jg.highest_sal
+   left join departments d
+   on e.department_id = d.department_id
+   left join locations l
+   on d.location_id = l.location_id
+   left join countries c
+   on l.country_id = c.country_id
+   left join regions r
+   on c.region_id = r.region_id
+   left join employees m
+   on e.manager_id = m.employee_id;
